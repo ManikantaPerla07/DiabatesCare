@@ -1,4 +1,8 @@
+<div align="center">
+
 # DiabetesCare: Diabetes Risk Assessment System
+
+An end-to-end ML-powered web application for diabetes risk prediction with a modern interface, production-ready API, and free-cloud deployment.
 
 [![Live App](https://img.shields.io/badge/Live-HuggingFace%20Space-blue?logo=huggingface&logoColor=white)](https://manikantaperla-diabatescare.hf.space)
 [![Space](https://img.shields.io/badge/Hugging%20Face-Space-yellow?logo=huggingface&logoColor=black)](https://huggingface.co/spaces/Manikantaperla/diabatescare)
@@ -7,7 +11,28 @@
 [![TensorFlow](https://img.shields.io/badge/TensorFlow-2.16-FF6F00?logo=tensorflow&logoColor=white)](https://www.tensorflow.org/)
 [![Docker](https://img.shields.io/badge/Container-Docker-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
 
-An end-to-end web application that predicts diabetes risk from health parameters using a trained neural network model. The app includes a responsive frontend, Flask backend API, model inference pipeline, and free-cloud deployment on Hugging Face Spaces.
+[![GitHub stars](https://img.shields.io/github/stars/ManikantaPerla07/DiabatesCare?style=social)](https://github.com/ManikantaPerla07/DiabatesCare/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/ManikantaPerla07/DiabatesCare?style=social)](https://github.com/ManikantaPerla07/DiabatesCare/network/members)
+[![Last Commit](https://img.shields.io/github/last-commit/ManikantaPerla07/DiabatesCare)](https://github.com/ManikantaPerla07/DiabatesCare/commits/master)
+[![Open Issues](https://img.shields.io/github/issues/ManikantaPerla07/DiabatesCare)](https://github.com/ManikantaPerla07/DiabatesCare/issues)
+
+</div>
+
+## Table of Contents
+
+- [Live Demo](#live-demo)
+- [Screenshots](#screenshots)
+- [Key Features](#key-features)
+- [Tech Stack](#tech-stack)
+- [How It Works](#how-it-works)
+- [API Reference](#api-reference)
+- [Local Setup](#local-setup)
+- [Docker Run](#docker-run)
+- [Roadmap](#roadmap)
+- [Project Structure](#project-structure)
+- [Notes](#notes)
+- [Contributing](#contributing)
+- [Acknowledgment](#acknowledgment)
 
 ## Live Demo
 

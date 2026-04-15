@@ -15,6 +15,14 @@ An end-to-end web application that predicts diabetes risk from health parameters
 - Space URL: https://huggingface.co/spaces/Manikantaperla/diabatescare
 - GitHub Repo: https://github.com/ManikantaPerla07/DiabatesCare
 
+## Screenshots
+
+Project screenshots can be added under `docs/screenshots/`.
+
+- Landing Page: `docs/screenshots/landing-page.png`
+- Prediction Form: `docs/screenshots/prediction-form.png`
+- Result View: `docs/screenshots/prediction-result.png`
+
 ## Key Features
 
 - Clean and responsive UI for health data input
@@ -136,6 +144,15 @@ docker run -p 7860:7860 diabetescare
 
 Then open: `http://localhost:7860`
 
+## Roadmap
+
+- Add model versioning and model metadata endpoint
+- Add input range hints and inline validation messages in the UI
+- Add downloadable PDF summary of predictions
+- Add lightweight test suite for API and frontend interactions
+- Add CI workflow for linting and deployment checks
+- Improve accessibility for charts and color-blind-safe palettes
+
 ## Project Structure
 
 ```text
@@ -158,6 +175,17 @@ DiabatesCare/
 - This project is for educational and screening support purposes only.
 - Predictions are not a medical diagnosis.
 - Always consult a qualified healthcare professional for clinical decisions.
+
+## Contributing
+
+Contributions are welcome.
+
+1. Fork the repository.
+2. Create a feature branch.
+3. Make focused changes with clear commit messages.
+4. Open a pull request describing the change and expected impact.
+
+For detailed contribution guidelines, see `CONTRIBUTING.md`.
 
 ## Acknowledgment
 

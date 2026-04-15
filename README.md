@@ -1,60 +1,164 @@
-# Diabetes Risk Assessment System
-A software implemented over the web medium that predicts a person’s chances of suffering from diabetes by analyzing his/her health records through a machine learning algorithm.
-## Features
-* Provides a user-friendly web interface for inputting health information.
-* Is based on a pre-trained neural network model for predicting diabetes risk.
-* Employs data preprocessing techniques (StandardScaler) for optimal model performance.
-* Clear and concise display of the predicted diabetes risk.
-## Installation
-1.  **Clone the repository:**
-```bash
-git clone <https://github.com/ManikantaPerla07/healthcare>
-cd healthcare
+# DiabetesCare: Diabetes Risk Assessment System
+
+[![Live App](https://img.shields.io/badge/Live-HuggingFace%20Space-blue?logo=huggingface&logoColor=white)](https://manikantaperla-diabatescare.hf.space)
+[![Space](https://img.shields.io/badge/Hugging%20Face-Space-yellow?logo=huggingface&logoColor=black)](https://huggingface.co/spaces/Manikantaperla/diabatescare)
+[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-3.0-black?logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![TensorFlow](https://img.shields.io/badge/TensorFlow-2.16-FF6F00?logo=tensorflow&logoColor=white)](https://www.tensorflow.org/)
+[![Docker](https://img.shields.io/badge/Container-Docker-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
+
+An end-to-end web application that predicts diabetes risk from health parameters using a trained neural network model. The app includes a responsive frontend, Flask backend API, model inference pipeline, and free-cloud deployment on Hugging Face Spaces.
+
+## Live Demo
+
+- App URL: https://manikantaperla-diabatescare.hf.space
+- Space URL: https://huggingface.co/spaces/Manikantaperla/diabatescare
+- GitHub Repo: https://github.com/ManikantaPerla07/DiabatesCare
+
+## Key Features
+
+- Clean and responsive UI for health data input
+- Real-time diabetes risk prediction using TensorFlow
+- Clear result summary with risk and safety percentages
+- Visual chart breakdown of prediction probabilities
+- Actionable recommendation panel based on result
+- Flask API endpoint for programmatic prediction
+- Dockerized deployment for portable hosting
+
+## Tech Stack
+
+- Backend: Flask
+- ML Inference: TensorFlow (CPU), NumPy, scikit-learn, Joblib
+- Frontend: HTML, CSS, JavaScript, Bootstrap, Chart.js
+- Deployment: Docker on Hugging Face Spaces
+
+## How It Works
+
+1. User enters clinical inputs on the prediction form.
+2. Backend validates and normalizes inputs.
+3. Stored StandardScaler transforms feature values.
+4. TensorFlow model predicts diabetes probability.
+5. API returns result, probability, confidence, and percentages.
+6. Frontend renders a readable summary, chart, and recommendations.
+
+## API Reference
+
+### Health Check
+
+- Method: `GET`
+- Endpoint: `/health`
+- Response:
+
+```json
+{
+	"status": "ok"
+}
 ```
-2.  **Install the required packages:**
+
+### Predict Risk
+
+- Method: `POST`
+- Endpoint: `/api/predict`
+- Content-Type: `application/json`
+
+Request body example:
+
+```json
+{
+	"pregnancies": 2,
+	"glucose": 135,
+	"blood_pressure": 80,
+	"skin_thickness": 25,
+	"insulin": 85,
+	"bmi": 29.7,
+	"diabetes_pedigree": 0.52,
+	"age": 41
+}
+```
+
+Response example:
+
+```json
+{
+	"result": "Diabetic",
+	"probability": 0.74,
+	"confidence": 0.74,
+	"probability_pct": 74.0,
+	"confidence_pct": 74.0
+}
+```
+
+## Local Setup
+
+### 1. Clone Repository
+
+```bash
+git clone https://github.com/ManikantaPerla07/DiabatesCare.git
+cd DiabatesCare
+```
+
+### 2. Create and Activate Virtual Environment
+
+Windows (PowerShell):
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
+
+Linux/macOS:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
+
+### 3. Install Dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
-## Usage
-1.  **Run the Flask application:**
+
+### 4. Run the App
+
 ```bash
 python app.py
 ```
-Here is what you should do: **Start your web browser**at `http://127.0.0.1:5000/` then navigate to get the landing page.
-3. Click on the prediction interface, most likely a `/predict_page` link.
-4. Fill in the necessary health information on the form and then click the “Predict” button.
-5.  The system will display the predicted diabetes risk.
-## Example Input
-To obtain a prediction, one would typically input values for the following features:
-* Pregnancies (e.g., 0, 1, 5)
-* Glucose (e.g., 80, 120, 180)
-* BloodPressure (e.g., 70, 85, 95)
-* SkinThickness (e.g., 20, 30, 40)
-* Insulin (e.g., 0, 50, 150)
-* BMI (e.g., 25.0, 30.5, 35.0)
-* DiabetesPedigreeFunction (e.g., 0.5, 1.2)
-* Age (e.g., 25, 40, 60)
-## Important Note
-It is an ASD risk predictor that is based on machine learning model and should not be viewed as a replacement for professional medical advice. Always get help from a health care provider for diagnosis and treatment.
+
+Open: `http://127.0.0.1:5000`
+
+## Docker Run
+
+```bash
+docker build -t diabetescare .
+docker run -p 7860:7860 diabetescare
+```
+
+Then open: `http://localhost:7860`
+
 ## Project Structure
-* **`static/`**: Contains static files (CSS and JavaScript).
-* **`css/style.css`**: Stylesheet for the web application.
-* **`js/main.js`**: Handles client-side interactions.
-* **`templates/`**: Contains HTML templates.
-* **`index.html`**: Prediction input form and result display.
-* **`landing.html`**: Initial landing page.
-* **`app.py`**: The main flask application file that does the routing of requests, implement the backend logic and integrate with models for predictions.
-* **`diabetes_model.h5`**: Pre-trained Keras/TensorFlow neural network model.
-* **`diabetes.csv`**: Dataset used for training the model.
-* **`requirements.txt`**: List of Python dependencies.
-* **`scaler.pkl`**: Trained StandardScaler object for preprocessing input data.
-* The `train_model.py` file is in charge of writing the codes for training the ML model and a scaler.
-## Technologies Used
-* Python
-* Flask
-* TensorFlow
-* Keras
-* Pandas
-* NumPy
-* Scikit-learn (StandardScaler, train\_test\_split)
-* Joblib
+
+```text
+DiabatesCare/
+	app.py                   # Flask routes and prediction API
+	diabetes_model.h5        # Trained TensorFlow model
+	scaler.joblib            # StandardScaler for feature normalization
+	requirements.txt         # Python dependencies
+	Dockerfile               # Container build for deployment
+	templates/
+		landing.html           # Landing page
+		index.html             # Prediction form and result view
+	static/
+		css/style.css          # Styles
+		js/main.js             # Client-side interactions
+```
+
+## Notes
+
+- This project is for educational and screening support purposes only.
+- Predictions are not a medical diagnosis.
+- Always consult a qualified healthcare professional for clinical decisions.
+
+## Acknowledgment
+
+Built and maintained by Manikanta Perla.

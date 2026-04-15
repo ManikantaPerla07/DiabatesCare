@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from flask import Flask, render_template, request, jsonify
 import tensorflow as tf
 import numpy as np
@@ -5,34 +7,49 @@ from joblib import load
 
 app = Flask(__name__)
 
-# Load the trained model and scaler
-model = tf.keras.models.load_model('diabetes_model.h5')
-scaler = load('scaler.joblib')
+# Resolve artifacts relative to this file so the app works from any CWD.
+BASE_DIR = Path(__file__).resolve().parent
+model = tf.keras.models.load_model(BASE_DIR / 'diabetes_model.h5')
+scaler = load(BASE_DIR / 'scaler.joblib')
 
 @app.route('/')
 def home():
     return render_template('landing.html')
 
-@app.route('/predict')
-def predict_page():
-    return render_template('index.html')
+@app.route('/predict', methods=['GET', 'POST'])
+def predict_page_or_api():
+    if request.method == 'GET':
+        return render_template('index.html')
+
+    # Backward-compatible POST handler for clients still calling /predict.
+    return run_prediction()
 
 @app.route('/api/predict', methods=['POST'])
 def predict():
+    return run_prediction()
+
+
+@app.route('/health', methods=['GET'])
+def health():
+    return jsonify({'status': 'ok'})
+
+
+def run_prediction():
     try:
         # Get the data from the request
-        data = request.get_json()
+        data = request.get_json(silent=True) or {}
         
         # Extract features in the correct order
+        # Support both diabetes_pedigree and legacy diabetesPedigreeFunction keys.
         features = [
-            data['pregnancies'],
-            data['glucose'],
-            data['blood_pressure'],
-            data['skin_thickness'],
-            data['insulin'],
-            data['bmi'],
-            data['diabetes_pedigree'],
-            data['age']
+            float(data['pregnancies']),
+            float(data['glucose']),
+            float(data['blood_pressure']),
+            float(data['skin_thickness']),
+            float(data['insulin']),
+            float(data['bmi']),
+            float(data.get('diabetes_pedigree', data.get('diabetesPedigreeFunction', 0.0))),
+            float(data['age'])
         ]
         
         # Convert to numpy array and reshape
@@ -42,7 +59,7 @@ def predict():
         features_scaled = scaler.transform(features)
         
         # Make prediction
-        prediction = model.predict(features_scaled)
+        prediction = model.predict(features_scaled, verbose=0)
         probability = float(prediction[0][0])
         
         # Determine the result and confidence
@@ -53,9 +70,19 @@ def predict():
         return jsonify({
             'result': result,
             'probability': probability,
-            'confidence': confidence
+            'confidence': confidence,
+            'probability_pct': round(probability * 100, 2),
+            'confidence_pct': round(confidence * 100, 2)
         })
         
+    except KeyError as e:
+        return jsonify({
+            'error': f'Missing required field: {str(e)}'
+        }), 400
+    except ValueError:
+        return jsonify({
+            'error': 'Invalid numeric value in request payload'
+        }), 400
     except Exception as e:
         print(f"Error during prediction: {str(e)}")
         return jsonify({
@@ -64,4 +91,4 @@ def predict():
         }), 500
 
 if __name__ == '__main__':
-    app.run(debug=True) 
+    app.run(debug=True)

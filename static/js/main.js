@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
             skin_thickness: document.getElementById('skin_thickness').value,
             insulin: document.getElementById('insulin').value,
             bmi: document.getElementById('bmi').value,
+            diabetes_pedigree: document.getElementById('diabetes_pedigree').value,
             age: document.getElementById('age').value
         };
 
@@ -44,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // Send prediction request
-            const response = await fetch('/predict', {
+            const response = await fetch('/api/predict', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -67,9 +68,9 @@ document.addEventListener('DOMContentLoaded', function() {
                             <i class="fas ${data.result === 'Diabetic' ? 'fa-exclamation-triangle' : 'fa-check-circle'} me-2"></i>
                             ${data.result}
                         </h4>
-                        <p>Confidence: ${data.confidence}%</p>
+                        <p>Confidence: ${(data.confidence_pct ?? data.confidence * 100).toFixed(2)}%</p>
                         <hr>
-                        <p class="mb-0">${getRecommendation(data.result, data.confidence)}</p>
+                        <p class="mb-0">${getRecommendation(data.result, data.confidence_pct ?? data.confidence * 100)}</p>
                     </div>
                 </div>
             `;
@@ -88,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 data: {
                     labels: ['Diabetic', 'Not Diabetic'],
                     datasets: [{
-                        data: [data.probability, 100 - data.probability],
+                        data: [data.probability * 100, (1 - data.probability) * 100],
                         backgroundColor: ['#dc3545', '#28a745'],
                         borderWidth: 0
                     }]
